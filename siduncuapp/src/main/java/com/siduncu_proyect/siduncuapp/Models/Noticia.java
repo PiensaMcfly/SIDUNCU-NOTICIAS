@@ -23,4 +23,9 @@ public class Noticia {
     private LocalDateTime fechaPublicacion;
     private boolean publicada;
 
+    @ManyToOne
+    private Categoria categoria;
+
+
+
 }

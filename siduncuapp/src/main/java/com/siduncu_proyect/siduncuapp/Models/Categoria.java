@@ -1,15 +1,14 @@
 package com.siduncu_proyect.siduncuapp.Models;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -23,4 +22,6 @@ public class Categoria {
     private Long id;
 
     private String nombre;
+    @OneToMany(mappedBy = "categoria")
+    private List<Noticia> listaNoticias;
 }
