@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,5 +34,32 @@ public class UsuarioController {
     public ResponseEntity <Usuario> crearUsuario(@RequestBody Usuario user){
         Usuario usuario = servicioUsuario.saveUsuario(user);
         return new ResponseEntity<Usuario> (usuario, HttpStatus.OK);
+    }
+    
+    @GetMapping("/lista/{id}")
+    public Usuario getUsuario(@PathVariable Long id){
+        return servicioUsuario.findUsuario(id);
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity <Usuario> deleteUsuario(@PathVariable Long id){
+        Usuario user = servicioUsuario.findUsuario(id);
+        if (user != null){
+            servicioUsuario.deleteUsuario(id);
+        } else {
+            return new ResponseEntity<Usuario> (user, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+     return new ResponseEntity <Usuario> (user, HttpStatus.OK);
+    }
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity <Usuario> actualizarUsuario(@PathVariable Long id) {
+    Usuario user = servicioUsuario.findUsuario(id);
+    if (user != null){
+        servicioUsuario.updateUsuario(user);
+    } else {
+    return new ResponseEntity<Usuario> (user, HttpStatus.INTERNAL_SERVER_ERROR);
+    }  
+    return new ResponseEntity <Usuario> (user, HttpStatus.OK);
     }
 }
