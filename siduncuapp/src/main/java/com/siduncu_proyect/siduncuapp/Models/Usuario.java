@@ -2,7 +2,15 @@ package com.siduncu_proyect.siduncuapp.Models;
 
 import com.siduncu_proyect.siduncuapp.Enums.Rol;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@AllArgsConstructor
+@Getter
+@NoArgsConstructor
 @Entity
 public class Usuario {
     @Id
