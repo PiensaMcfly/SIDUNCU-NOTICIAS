@@ -48,6 +48,7 @@ public class NoticiaService implements INoticiaService{
 
     @Override
     public void updateNoticia(Noticia noticia) {
+        
         noticiaRepo.save(noticia);
     }
     
