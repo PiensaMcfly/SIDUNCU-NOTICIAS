@@ -22,6 +22,6 @@ public class Categoria {
     private Long id;
 
     private String nombre;
-    @OneToMany(mappedBy = "categoria")
-    private List<Noticia> listaNoticias;
+    //@OneToMany(mappedBy = "categoria")
+   //private List<Noticia> listaNoticias;
 }
