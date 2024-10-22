@@ -1,16 +1,34 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>Backend de Siduncu</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div> <h1>Panel del servidor</h1>
-            <h2>Backend del proyecto</h2></div>
-    </body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Backend de Siduncu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div>
+        <h1>Panel del servidor</h1>
+        <h2>Backend del proyecto</h2>
+
+        <h3>Usuarios:</h3>
+        <ul>
+            
+            <li th:each="usuario : ${usuarios} " th:text=" ${usuario.nombreUsuario}">               
+            </li>
+             <p th:each="usuario :${usuarios} " th:text="${usuario.rol}">
+                </p>
+
+        </ul>
+
+        <h3>Noticias:</h3>
+        <ul>
+            <li th:each="noticia : ${noticias}" th:text="${noticia.titulo}"></li>   
+        </ul>
+
+        <h3>Categorías:</h3>
+        <ul>
+            <li th:each="categoria : ${categorias}" th:text="${categoria.nombre}"></li>
+        </ul>
+    </div>
+</body>
 </html>

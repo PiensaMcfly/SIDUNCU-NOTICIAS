@@ -43,13 +43,27 @@ public class NoticiaController {
         return new ResponseEntity<Noticia>(noticia,HttpStatus.OK);
     }
 
-    @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Noticia> actualizarNoticia(@PathVariable Long id){
-        Noticia noticia= servicioNoticia.findNoticia(id);
-        if (noticia != null){
-            servicioNoticia.updateNoticia(noticia);
-        }else {return new ResponseEntity<Noticia>(noticia,HttpStatus.INTERNAL_SERVER_ERROR);}
-        return new ResponseEntity<Noticia>(noticia,HttpStatus.OK);
+@PutMapping("/actualizar/{id}")
+public ResponseEntity<Noticia> actualizarNoticia(@PathVariable Long id, @RequestBody Noticia notiActualizada) {
+    // Buscar la noticia existente por el ID
+    Noticia noticia = servicioNoticia.findNoticia(id);
+    
+    if (noticia != null) {
+        // Actualizar solo los campos que llegan en la solicitud, manteniendo los demás
+        noticia.setTitulo(notiActualizada.getTitulo() != null ? notiActualizada.getTitulo() : noticia.getTitulo());
+        noticia.setContenido(notiActualizada.getContenido() != null ? notiActualizada.getContenido() : noticia.getContenido());
+        noticia.setFechaPublicacion(notiActualizada.getFechaPublicacion() != null ? notiActualizada.getFechaPublicacion() : noticia.getFechaPublicacion());
+        noticia.setPublicada(notiActualizada.isPublicada());
+        noticia.setCategoria(notiActualizada.getCategoria() != null ? notiActualizada.getCategoria() : noticia.getCategoria());
+        
+        // Guardar la noticia actualizada
+        servicioNoticia.updateNoticia(noticia);
+        
+        return new ResponseEntity<>(noticia, HttpStatus.OK);
+    } else {
+        // Si no se encuentra la noticia, retornar un error
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+}
 
 }
