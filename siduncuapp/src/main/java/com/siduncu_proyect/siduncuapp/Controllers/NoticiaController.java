@@ -23,47 +23,53 @@ public class NoticiaController {
     private INoticiaService servicioNoticia;
 
     @GetMapping("/lista")
-    public List<Noticia> getAll(){ return servicioNoticia.getNoticia();}
+    public List<Noticia> getAll() {
+        return servicioNoticia.getNoticia();
+    }
 
-  @PostMapping("/crear")
-    public ResponseEntity <Noticia> crearNoticia(@RequestBody Noticia noti){
+    @PostMapping("/crear")
+    public ResponseEntity<Noticia> crearNoticia(@RequestBody Noticia noti) {
         Noticia noticia = servicioNoticia.saveNoticia(noti);
         return new ResponseEntity<Noticia>(noticia, HttpStatus.OK);
-  }
+    }
 
-  @GetMapping("/lista/{id}")
-    public Noticia getNoticia(@PathVariable Long id){return servicioNoticia.findNoticia(id);}
+    @GetMapping("/lista/{id}")
+    public Noticia getNoticia(@PathVariable Long id) {
+        return servicioNoticia.findNoticia(id);
+    }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity <Noticia> deleteNoticia(@PathVariable Long id){
+    public ResponseEntity<Noticia> deleteNoticia(@PathVariable Long id) {
         Noticia noticia = servicioNoticia.findNoticia(id);
-        if(noticia != null){
+        if (noticia != null) {
             servicioNoticia.deleteNoticia(id);
-        }else { return new ResponseEntity<Noticia>(noticia,HttpStatus.INTERNAL_SERVER_ERROR);}
-        return new ResponseEntity<Noticia>(noticia,HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Noticia>(noticia, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<Noticia>(noticia, HttpStatus.OK);
     }
 
-@PutMapping("/actualizar/{id}")
-public ResponseEntity<Noticia> actualizarNoticia(@PathVariable Long id, @RequestBody Noticia notiActualizada) {
-    // Buscar la noticia existente por el ID
-    Noticia noticia = servicioNoticia.findNoticia(id);
-    
-    if (noticia != null) {
-        // Actualizar solo los campos que llegan en la solicitud, manteniendo los demás
-        noticia.setTitulo(notiActualizada.getTitulo() != null ? notiActualizada.getTitulo() : noticia.getTitulo());
-        noticia.setContenido(notiActualizada.getContenido() != null ? notiActualizada.getContenido() : noticia.getContenido());
-        noticia.setFechaPublicacion(notiActualizada.getFechaPublicacion() != null ? notiActualizada.getFechaPublicacion() : noticia.getFechaPublicacion());
-        noticia.setPublicada(notiActualizada.isPublicada());
-        noticia.setCategoria(notiActualizada.getCategoria() != null ? notiActualizada.getCategoria() : noticia.getCategoria());
-        
-        // Guardar la noticia actualizada
-        servicioNoticia.updateNoticia(noticia);
-        
-        return new ResponseEntity<>(noticia, HttpStatus.OK);
-    } else {
-        // Si no se encuentra la noticia, retornar un error
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<Noticia> actualizarNoticia(@PathVariable Long id, @RequestBody Noticia notiActualizada) {
+        // Buscar la noticia existente por el ID
+        Noticia noticia = servicioNoticia.findNoticia(id);
+
+        if (noticia != null) {
+            // Actualizar solo los campos que llegan en la solicitud, manteniendo los demás
+            noticia.setTitulo(notiActualizada.getTitulo() != null ? notiActualizada.getTitulo() : noticia.getTitulo());
+            noticia.setContenido(notiActualizada.getContenido() != null ? notiActualizada.getContenido() : noticia.getContenido());
+            noticia.setFechaPublicacion(notiActualizada.getFechaPublicacion() != null ? notiActualizada.getFechaPublicacion() : noticia.getFechaPublicacion());
+            noticia.setPublicada(notiActualizada.isPublicada());
+            noticia.setCategoria(notiActualizada.getCategoria() != null ? notiActualizada.getCategoria() : noticia.getCategoria());
+
+            // Guardar la noticia actualizada
+            servicioNoticia.updateNoticia(noticia);
+
+            return new ResponseEntity<>(noticia, HttpStatus.OK);
+        } else {
+            // Si no se encuentra la noticia, retornar un error
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-}
 
 }
