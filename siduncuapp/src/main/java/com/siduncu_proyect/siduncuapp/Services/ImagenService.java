@@ -5,11 +5,13 @@ import com.siduncu_proyect.siduncuapp.Models.Imagen;
 import com.siduncu_proyect.siduncuapp.Repositories.IImagenRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author siduncuNotebook
  */
+@Service
 public class ImagenService implements IImagenService {
 
     @Autowired
