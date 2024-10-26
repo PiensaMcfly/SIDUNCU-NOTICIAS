@@ -25,8 +25,6 @@ public class Noticia {
 
     @ManyToOne
     private Categoria categoria;
-
-    @OneToOne
-    private Imagen imagenUrl;
+    private String imagenUrl;
 
 }
