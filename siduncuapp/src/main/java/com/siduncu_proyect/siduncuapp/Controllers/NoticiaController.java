@@ -61,7 +61,7 @@ public class NoticiaController {
             noticia.setFechaPublicacion(notiActualizada.getFechaPublicacion() != null ? notiActualizada.getFechaPublicacion() : noticia.getFechaPublicacion());
             noticia.setPublicada(notiActualizada.isPublicada());
             noticia.setCategoria(notiActualizada.getCategoria() != null ? notiActualizada.getCategoria() : noticia.getCategoria());
-
+            noticia.setImagenUrl(notiActualizada.getImagenUrl() != null ? notiActualizada.getImagenUrl() : noticia.getImagenUrl());
             // Guardar la noticia actualizada
             servicioNoticia.updateNoticia(noticia);
 
