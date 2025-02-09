@@ -1,12 +1,13 @@
 package com.siduncu_proyect.siduncuapp.Models;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,9 +19,11 @@ public class Noticia {
     private Long id;
 
     private String titulo;
+    @Lob//notacion para texto largo
+    @Column(name = "contenido", columnDefinition = "LONGTEXT") 
     private String contenido;
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaPublicacion;
+    private LocalDate fechaCreacion;
+    private LocalDate fechaPublicacion;
     private boolean publicada;
 
     @ManyToOne
