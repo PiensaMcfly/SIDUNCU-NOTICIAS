@@ -1,40 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Crear Noticia</title>
-    </head>
-    <body>
-        <form th:action="@{/noticias/crear}" method="post">
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" required>
-            <br>
+<head>
+    <title>Crear Noticia</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <form class="formulario-novedades" th:action="@{/noticias/crear}" method="post">
+        <h2>Crear Noticia</h2>  <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="titulo" required>
 
-            <label for="contenido">Contenido:</label>
-            <textarea id="contenido" name="contenido" required></textarea>
-            <br>
+        <label for="contenido">Contenido:</label>
+        <textarea id="contenido" name="contenido" required></textarea>
 
-            <label for="fechaCreacion">Fecha de Creación:</label>
-            <input type="date" id="fechaCreacion" name="fechaCreacion" required>
-            <br>
+        <label for="fechaCreacion">Fecha de Creación:</label>
+        <input type="date" id="fechaCreacion" name="fechaCreacion" required>
 
-            <label for="fechaPublicacion">Fecha de Publicación:</label>
-            <input type="date" id="fechaPublicacion" name="fechaPublicacion">
-            <br>
+        <label for="fechaPublicacion">Fecha de Publicación:</label>
+        <input type="date" id="fechaPublicacion" name="fechaPublicacion">
 
-            <label for="categoria">Categoría:</label>
-            <select id="categoria" name="categoria.id" required>
-                <option value="" disabled selected>Selecciona una categoría</option>
-                <option th:each="categoria : ${categorias}" 
-                        th:value="${categoria.id}" 
-                        th:text="${categoria.nombre}"></option>
-            </select>
-            <br>
+        <label for="categoria">Categoría:</label>
+        <select id="categoria" name="categoria.id" required>
+            <option value="" disabled selected>Selecciona una categoría</option>
+            <option th:each="categoria : ${categorias}"
+                    th:value="${categoria.id}"
+                    th:text="${categoria.nombre}"></option>
+        </select>
 
-            <label for="publicada">¿Publicada?</label>
-            <input type="checkbox" id="publicada" name="publicada">
-            <br>
+        <label for="publicada">¿Publicada?</label>
+        <input type="checkbox" id="publicada" name="publicada">
 
-            <button type="submit">Crear Noticia</button>
-        </form>
-    </body>
+        <label for="imagenUrl">Url de la imagen:</label>
+        <input type="text" id="imagenUrl" name="imagenUrl">
+
+        <button type="submit">Crear Noticia</button>
+    </form>
+</body>
 </html>
