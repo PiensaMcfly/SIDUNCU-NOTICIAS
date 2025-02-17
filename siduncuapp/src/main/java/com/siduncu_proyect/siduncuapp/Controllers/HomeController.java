@@ -52,4 +52,9 @@ public class HomeController {
         model.addAttribute("categorias", categorias);
         return "formulario";
     }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
 }
