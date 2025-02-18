@@ -1,6 +1,7 @@
 
 package com.siduncu_proyect.siduncuapp.Services;
 
+import com.siduncu_proyect.siduncuapp.Enums.Rol;
 import com.siduncu_proyect.siduncuapp.Models.Usuario;
 import com.siduncu_proyect.siduncuapp.Repositories.IusuarioRepository;
 import java.util.List;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsuarioService implements IUsuarioService {
 
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
     
     @Autowired
     private IusuarioRepository usuarioRepo;
@@ -24,8 +28,19 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public Usuario saveUsuario(Usuario usuario) {
-        return usuarioRepo.save(usuario);
+    public Usuario saveUsuario(@org.jetbrains.annotations.NotNull Usuario usuario2) {
+        Usuario usuario = new Usuario();
+        usuario.setNombreUsuario(usuario2.getNombreUsuario());
+        usuario.setPassword(this.passwordEncoder.encode(usuario2.getPassword())); // Encripta la contraseña
+
+        // Asigna ADMIN si no se proporciona un rol
+        if (usuario2.getRol() == null) {
+            usuario.setRol(Rol.ADMIN);
+        } else {
+            usuario.setRol(usuario2.getRol());
+        }
+
+        return usuarioRepo.save(usuario); // Guarda el objeto actualizado
     }
 
     @Override

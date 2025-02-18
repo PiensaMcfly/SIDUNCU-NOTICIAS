@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/siduncuapp.iml" filepath="$PROJECT_DIR$/.idea/siduncuapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SIDUNCU-NOTICIAS.iml" filepath="$PROJECT_DIR$/.idea/SIDUNCU-NOTICIAS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/siduncuapp/siduncuapp.iml" filepath="$PROJECT_DIR$/siduncuapp/siduncuapp.iml" />
     </modules>
   </component>
 </project>
