@@ -15,5 +15,10 @@ public interface IUsuarioService {
     
     public Usuario findUsuario(Long id);
     
-    public void updateUsuario(Usuario usuario);   
+    public void updateUsuario(Usuario usuario);
+
+    public Usuario buscarPorNombreUsuario(String nombreUsuario);
+
+    public boolean verificarPassword(String rawPassword, String encodedPassword);
+
 }

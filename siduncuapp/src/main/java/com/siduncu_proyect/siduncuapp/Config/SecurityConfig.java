@@ -1,3 +1,4 @@
+import com.siduncu_proyect.siduncuapp.Config.PasswordConfig;
 import com.siduncu_proyect.siduncuapp.Services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,24 +13,32 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity
+        (prePostEnabled = true)
+
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+    private final PasswordConfig passwordConfig;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+
+    public SecurityConfig(CustomUserDetailsService userDetailsService, PasswordConfig passwordConfig) {
         this.userDetailsService = userDetailsService;
+        this.passwordConfig = passwordConfig;
     }
+
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/css/**", "/js/**", "/images/**").permitAll() // Rutas públicas
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // Solo usuarios con rol ADMIN
-                        .anyRequest().authenticated() // Rutas que requieren autenticación
+                        .requestMatchers("/**").permitAll() // para todos usuarios
+                        // Rutas que requieren autenticación
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login") // Ruta al formulario de inicio de sesión
+                        .loginPage("/login1")
+                        .loginProcessingUrl("/logincheck")// Ruta al formulario de inicio de sesión
                         .usernameParameter("nombreUsuario")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/", true) // Redirigir tras login exitoso

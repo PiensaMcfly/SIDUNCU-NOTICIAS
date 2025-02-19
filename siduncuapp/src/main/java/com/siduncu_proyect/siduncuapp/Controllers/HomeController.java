@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -53,8 +55,28 @@ public class HomeController {
         return "formulario";
     }
 
-    @GetMapping("/login")
-    public String login(){
+    //@GetMapping("/login")
+    //public String login() {
+      //  return "login";
+   // }
+
+    @PostMapping("/login")
+    public String iniciarSesion(@RequestParam("username") String username,
+                                @RequestParam("password") String password,
+                                Model model) {
+        // Buscar el usuario por su nombre de usuario
+        Usuario usuario = usuarioService.buscarPorNombreUsuario(username);
+
+        if (usuario != null && usuarioService.verificarPassword(password, usuario.getPassword())) {
+            // Credenciales válidas: Redirige al inicio
+            model.addAttribute("usuario", usuario);
+            return "redirect:/";
+        }
+
+        // Si las credenciales son incorrectas, retorna al login con mensaje de error
+        model.addAttribute("error", "Usuario o contraseña incorrectos");
         return "login";
     }
+
+
 }

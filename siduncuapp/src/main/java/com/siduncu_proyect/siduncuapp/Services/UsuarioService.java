@@ -67,7 +67,14 @@ public class UsuarioService implements IUsuarioService {
             System.out.println(e.getMessage());
         }
     }
-    
-    
-   
+
+    @Override
+    public Usuario buscarPorNombreUsuario(String nombreUsuario) {
+        return usuarioRepo.buscarPorUsuario(nombreUsuario);
+    }
+    @Override
+    public boolean verificarPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+
+    }
 }
