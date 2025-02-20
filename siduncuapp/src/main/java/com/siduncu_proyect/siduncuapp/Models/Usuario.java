@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.User;
 
 @Setter
 @AllArgsConstructor
@@ -24,4 +25,8 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
+    public Usuario orElseThrow(Object o) {
+
+        return null;
+    }
 }

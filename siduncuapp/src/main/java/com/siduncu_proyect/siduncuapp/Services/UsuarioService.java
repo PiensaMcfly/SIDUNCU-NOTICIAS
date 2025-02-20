@@ -5,6 +5,8 @@ import com.siduncu_proyect.siduncuapp.Enums.Rol;
 import com.siduncu_proyect.siduncuapp.Models.Usuario;
 import com.siduncu_proyect.siduncuapp.Repositories.IusuarioRepository;
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,20 +30,30 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public Usuario saveUsuario(@org.jetbrains.annotations.NotNull Usuario usuario2) {
-        Usuario usuario = new Usuario();
-        usuario.setNombreUsuario(usuario2.getNombreUsuario());
-        usuario.setPassword(this.passwordEncoder.encode(usuario2.getPassword())); // Encripta la contraseña
-
-        // Asigna ADMIN si no se proporciona un rol
-        if (usuario2.getRol() == null) {
-            usuario.setRol(Rol.ADMIN);
-        } else {
-            usuario.setRol(usuario2.getRol());
+    public Usuario saveUsuario(@NotNull Usuario usuarioInput) {
+        // Validar si el nombre de usuario ya existe en la base de datos
+        if (usuarioInput.getNombreUsuario() != null && usuarioRepo.FindByNombreUsuario(usuarioInput.getNombreUsuario()) != null) {
+            throw new IllegalArgumentException("El nombre de usuario ya está en uso.");
         }
 
-        return usuarioRepo.save(usuario); // Guarda el objeto actualizado
+        // Crear una nueva instancia de Usuario
+        Usuario usuario = new Usuario();
+        usuario.setNombreUsuario(usuarioInput.getNombreUsuario());
+
+        // Codificar la contraseña
+        usuario.setPassword(passwordEncoder.encode(usuarioInput.getPassword()));
+
+        // Asignar el rol, si no se proporciona, asignar un rol por defecto (opcional)
+        if (usuarioInput.getRol() == null) {
+            usuario.setRol(Rol.EDITOR); // Asigna un rol estándar como "EDITOR"
+        } else {
+            usuario.setRol(usuarioInput.getRol());
+        }
+
+        // Guardar el usuario en la base de datos
+        return usuarioRepo.save(usuario);
     }
+
 
     @Override
     public void deleteUsuario(Long id) {
@@ -67,7 +79,19 @@ public class UsuarioService implements IUsuarioService {
             System.out.println(e.getMessage());
         }
     }
-    
-    
-   
+
+    public void validarPassword(String password) {
+        if (password.length() < 8) {
+            throw new IllegalArgumentException("La contraseña debe tener al menos 8 caracteres.");
+        }
+        if (!password.matches(".*\\d.*")) {
+            throw new IllegalArgumentException("La contraseña debe contener al menos un número.");
+        }
+        if (!password.matches(".*[A-Za-z].*")) {
+            throw new IllegalArgumentException("La contraseña debe contener al menos una letra.");
+        }
+        // Puedes agregar más reglas aquí
+    }
+
+
 }
