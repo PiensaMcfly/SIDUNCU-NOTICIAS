@@ -16,7 +16,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity
-@ConditionalOnProperty(name = "spring.security.disabled", havingValue = "false", matchIfMissing = true)
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
@@ -31,24 +30,20 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf().disable()
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/editor/**").hasRole("EDITOR")
+        http
+                .csrf().disable() // Opcional: deshabilitar CSRF para pruebas iniciales
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/resources/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/home", true)
+                        .loginPage("/login") // Página personalizada
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                )
-                .build();
+                        .logoutSuccessUrl("/login?logout") // Configurar redirección tras el cierre de sesión
+                );
+        return http.build();
     }
 
 
