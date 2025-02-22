@@ -25,7 +25,6 @@ public class NoticiaService implements INoticiaService{
 
     @Override
     public Noticia saveNoticia(Noticia noticia) {
-        System.out.println("Tamaño del contenido: " + noticia.getContenido().length());
         return noticiaRepo.save(noticia);
 
     }

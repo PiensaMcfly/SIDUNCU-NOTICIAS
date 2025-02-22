@@ -8,7 +8,7 @@ import com.siduncu_proyect.siduncuapp.Services.NoticiaService;
 import com.siduncu_proyect.siduncuapp.Services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.Model; 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -54,8 +54,9 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login(Model model) {
         return "login";
     }
-
 }
+
+

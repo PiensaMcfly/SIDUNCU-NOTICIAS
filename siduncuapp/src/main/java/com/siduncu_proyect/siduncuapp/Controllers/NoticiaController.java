@@ -7,8 +7,6 @@ package com.siduncu_proyect.siduncuapp.Controllers;
 import com.siduncu_proyect.siduncuapp.Models.Noticia;
 import com.siduncu_proyect.siduncuapp.Models.Usuario;
 import com.siduncu_proyect.siduncuapp.Services.INoticiaService;
-import jakarta.transaction.Transactional;
-import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 @RequestMapping("/noticias")
@@ -33,22 +30,17 @@ public class NoticiaController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Noticia> crearNoticia(@ModelAttribute Noticia noti, RedirectAttributes redirectAttributes) {
-        // Validar y procesar las fechas si es necesario
-        noti.setFechaCreacion(noti.getFechaCreacion() != null ? noti.getFechaCreacion() : LocalDate.now());
-        //guardar la noticia
-        Noticia noticiaGuardada = servicioNoticia.saveNoticia(noti);
-        // Añade un mensaje de éxito
-    redirectAttributes.addFlashAttribute("mensaje", "¡Noticia creada con éxito!");
-        return new ResponseEntity<>(noticiaGuardada, HttpStatus.CREATED);
+    public ResponseEntity<Noticia> crearNoticia(@RequestBody Noticia noti) {
+        Noticia noticia = servicioNoticia.saveNoticia(noti);
+        return new ResponseEntity<Noticia>(noticia, HttpStatus.OK);
     }
 
     @GetMapping("/lista/{id}")
     public Noticia getNoticia(@PathVariable Long id) {
         return servicioNoticia.findNoticia(id);
     }
-    @Transactional
-    @PostMapping("/delete/{id}")
+
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Noticia> deleteNoticia(@PathVariable Long id) {
         Noticia noticia = servicioNoticia.findNoticia(id);
         if (noticia != null) {

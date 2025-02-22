@@ -1,94 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
     <head>
         <title>Backend de Siduncu - Panel de Administración</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/css/style.css">
     </head>
-    <body>
-        <!-- Encabezado del panel -->
-        <div class="header">
-            <h1>Panel de Administración - Backend de Siduncu</h1>
-            <h2>Gestión de Usuarios, Noticias y Categorías</h2>
-        </div>
 
-        <div class="container">
-            <!-- Tabla de Usuarios -->
-            <h3>Usuarios Registrados</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre de Usuario</th>
-                        <th>Rol</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="usuario : ${usuarios}">
-                        <td th:text="${usuario.nombreUsuario}"></td>
-                        <td th:text="${usuario.rol}"></td>
-                    </tr>
-                </tbody>
-            </table>
+<body>
+    <!-- Encabezado del panel -->
+    <div class="header">
+        <h1>Panel de Administración - Backend de Siduncu</h1>
+        <h2>Gestión de Usuarios, Noticias y Categorías</h2>
+    </div>
 
-            <!-- Botón para agregar nuevo usuario -->
-            <a href="#" class="btn btn-add">Agregar Usuario</a>
+    <div class="container">
+        <!-- Tabla de Usuarios -->
+        <h3>Usuarios Registrados</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre de Usuario</th>
+                    <th>Rol</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.nombreUsuario}"></td>
+                    <td th:text="${usuario.rol}"></td>
+                </tr>
+            </tbody>
+        </table>
 
-            <!-- Tabla de Noticias -->
-            <h3>Noticias Publicadas</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Título</th>
-                        <th>Contenido</th>
-                        <th>Fecha de Publicación</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="noticia : ${noticias}">
-                        <td th:text="${noticia.titulo}"></td>
-                        <td th:text="${noticia.contenido}"></td>
-                        <td th:text="${noticia.fechaPublicacion}"></td>
-                        <td th:text="${noticia.publicada ? 'Publicada' : 'No Publicada'}"></td>
-                        <td>
-                            <!-- Botón para borrar noticia -->
-                            <form th:action="@{/noticias/delete/{id}(id=${noticia.id})}" th:method="delete" style="display:inline;">
-                                <button type="submit" class="btn btn-delete">Borrar</button>
-                            </form>
+        <!-- Botón para agregar nuevo usuario -->
+        <a href="#" class="btn btn-add">Agregar Usuario</a>
 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Tabla de Noticias -->
+        <h3>Noticias Publicadas</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Contenido</th>
+                    <th>Fecha de Publicación</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="noticia : ${noticias}">
+                    <td th:text="${noticia.titulo}"></td>
+                    <td th:text="${noticia.contenido}"></td>
+                    <td th:text="${noticia.fechaPublicacion}"></td>
+                    <td th:text="${noticia.publicada ? 'Publicada' : 'No Publicada'}"></td>
+                </tr>
+            </tbody>
+        </table>
 
-            <!-- Botón para abrir el formulario de agregar noticia -->
-            <a href="/formulario" class="btn btn-add" >Agregar Noticia</a>
+        <!-- Botón para agregar nueva noticia -->
+        <a href="#" class="btn btn-add">Agregar Noticia</a>
 
-            <!-- Tabla de Categorías -->
-            <h3>Categorías Disponibles</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre de Categoría</th>
-                        <th>Descripción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="categoria : ${categorias}">
-                        <td th:text="${categoria.nombre}"></td>
+        <!-- Tabla de Categorías -->
+        <h3>Categorías Disponibles</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre de Categoría</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="categoria : ${categorias}">
+                    <td th:text="${categoria.nombre}"></td>
+          
+                </tr>
+            </tbody>
+        </table>
 
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Botón para agregar nueva categoría -->
+        <a href="#" class="btn btn-add">Agregar Categoría</a>
+    </div>
 
-            <!-- Botón para agregar nueva categoría -->
-            <a href="#" class="btn btn-add">Agregar Categoría</a>
-        </div>
-
-        <!-- Pie de página -->
-        <div class="footer">
-            <p>&copy; 2024 Proyecto Siduncu. Todos los derechos reservados.</p>
-        </div>
-    </body>
+    <!-- Pie de página -->
+    <div class="footer">
+        <p>&copy; 2024 Proyecto Siduncu. Todos los derechos reservados.</p>
+    </div>
+</body>
 </html>

@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.ui.Model;
 
 @RestController
 @RequestMapping("/categoria")
@@ -18,12 +17,8 @@ public class CategoriaController {
     @Autowired
     private ICategoriaService servicioCategoria;
 
-      @GetMapping("/lista")
-    public String listarCategorias(Model model) {
-        List<Categoria> categorias = servicioCategoria.getCategoria();
-        model.addAttribute("categorias", categorias);
-        return "formulario";
-    }
+    @GetMapping("/lista")
+    public List<Categoria> getAll(){ return servicioCategoria.getCategoria();}
 
     @PostMapping("/crear")
     public ResponseEntity<Categoria> crearCategoria(@RequestBody Categoria categoria){
