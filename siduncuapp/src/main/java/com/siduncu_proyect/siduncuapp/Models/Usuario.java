@@ -17,11 +17,19 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String nombreUsuario;
-    private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
+    public Usuario orElseThrow(Object o) {
+        return null;
+    }
 }

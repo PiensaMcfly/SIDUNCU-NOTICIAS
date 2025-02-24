@@ -1,11 +1,15 @@
 import com.siduncu_proyect.siduncuapp.Services.CustomUserDetailsService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder; // Solo para desarrollo
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -21,34 +25,32 @@ public class SecurityConfig {
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/css/**", "/js/**", "/images/**").permitAll() // Rutas públicas
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // Solo usuarios con rol ADMIN
-                        .anyRequest().authenticated() // Rutas que requieren autenticación
+                .csrf().disable() // Opcional: deshabilitar CSRF para pruebas iniciales
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/resources/**").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .formLogin((form) -> form
-                        .loginPage("/login") // Ruta al formulario de inicio de sesión
-                        .usernameParameter("nombreUsuario")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/", true) // Redirigir tras login exitoso
-                        .permitAll() // No requiere autenticación para acceder a la página de login
+                .formLogin(form -> form
+                        .loginPage("/login") // Página personalizada
+                        .permitAll()
                 )
-                .logout((logout) -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Ruta de logout
-                        .logoutSuccessUrl("/") // Redirigir tras logout
-                        .permitAll());
-        http.csrf().disable();
-
-
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout") // Configurar redirección tras el cierre de sesión
+                );
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManagerBuilder authManagerBuilder(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance()); // Solo para desarrollo
+                .passwordEncoder(passwordEncoder()); // Usa el encoder configurado
         return auth;
     }
 
