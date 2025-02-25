@@ -44,7 +44,10 @@ public class HomeController {
         // Retornar la vista
         return "index";
     }
-
+    @GetMapping ("/usuarioform")
+    public String paginaAgregarUsuario(Model model){
+        return "usuarioform";
+    }
     @GetMapping("/formulario")
     public String form(Model model) {
         // Obtener la lista de categorías desde el servicio
